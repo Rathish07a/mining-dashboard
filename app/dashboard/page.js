@@ -45,38 +45,76 @@ export default function Dashboard() {
 
   const [data, setData] = useState([]);
   const [alarmEnabled, setAlarmEnabled] = useState(false);
+  const [monitoring, setMonitoring] = useState(true);
 
-  useEffect(() => {
+//   useEffect(() => {
 
-    fetchData();
+//     fetchData();
 
-    const interval = setInterval(() => {
+//     const interval = setInterval(() => {
 
-      fetchData();
+//       fetchData();
 
-    }, 3000);
+//     }, 3000);
 
-    return () => clearInterval(interval);
+//     return () => clearInterval(interval);
 
-  }, []);
+//   }, []);
 
-  const fetchData = async () => {
+//   const fetchData = async () => {
 
-    try {
+//     try {
 
-      const res = await fetch(
-        "https://osvogm9118.execute-api.ap-south-1.amazonaws.com"
-      );
+//       const res = await fetch(
+//         "https://osvogm9118.execute-api.ap-south-1.amazonaws.com"
+//       );
 
-      const result = await res.json();
+//       const result = await res.json();
 
-      setData(result);
+//       setData(result);
 
-    } catch (error) {
+//     } catch (error) {
 
-      console.log(error);
-    }
-  };
+//       console.log(error);
+//     }
+//   };
+
+useEffect(() => {
+
+  if (!monitoring) return;
+
+  const interval = setInterval(() => {
+
+    const randomGas = Math.floor(
+      Math.random() * 4000
+    );
+
+    const newData = {
+
+      gas: randomGas,
+
+      temperature:
+        Math.floor(Math.random() * 15) + 25,
+
+      humidity:
+        Math.floor(Math.random() * 40) + 40,
+
+      time: new Date().toLocaleTimeString(),
+    };
+
+    setData((prev) => [
+
+      ...prev.slice(-9),
+
+      newData,
+
+    ]);
+
+  }, 3000);
+
+  return () => clearInterval(interval);
+
+}, [monitoring]);
 
   const latest = data[data.length - 1] || {};
 
@@ -154,6 +192,23 @@ export default function Dashboard() {
 
           <div className="bg-green-500 text-white px-6 py-3 rounded-2xl">
             SYSTEM ACTIVE
+            <div className="flex gap-4 mt-4">
+
+  <button
+    onClick={() => setMonitoring(true)}
+    className="bg-green-600 text-white px-5 py-2 rounded-xl"
+  >
+    Start Monitoring
+  </button>
+
+  <button
+    onClick={() => setMonitoring(false)}
+    className="bg-red-600 text-white px-5 py-2 rounded-xl"
+  >
+    Stop Monitoring
+  </button>
+
+</div>
             <button
   onClick={() => setAlarmEnabled(true)}
   className="bg-red-500 text-white px-4 py-2 rounded-xl ml-4"
@@ -351,43 +406,43 @@ export default function Dashboard() {
 
     </div>
 
-    <div className="bg-white p-6 rounded-2xl shadow-lg">
+   <div className="bg-white p-6 rounded-2xl shadow-lg">
 
-      <div className="flex items-center justify-between">
+  <div className="flex items-center justify-between">
 
-        <div>
+    <div>
 
-          <h3 className="text-2xl font-bold">
-            Robot 3
-          </h3>
+      <h3 className="text-2xl font-bold">
+        Robot 3
+      </h3>
 
-          <p className="text-red-600 font-semibold">
-            OFFLINE
-          </p>
-
-        </div>
-
-        <FaRobot size={45} />
-
-      </div>
-
-      <div className="mt-5 space-y-2">
-
-        <p>
-          Gas Level: --
-        </p>
-
-        <p>
-          Battery: 0%
-        </p>
-
-        <p>
-          Zone: Unknown
-        </p>
-
-      </div>
+      <p className="text-red-600 font-semibold">
+        OFFLINE
+      </p>
 
     </div>
+
+    <FaRobot size={45} />
+
+  </div>
+
+  <div className="mt-5 space-y-2">
+
+    <p>
+      Gas Level: --
+    </p>
+
+    <p>
+      Battery: 0%
+    </p>
+
+    <p>
+      Zone: Unknown
+    </p>
+
+  </div>
+
+</div>
 
   </div>
 
@@ -404,6 +459,7 @@ export default function Dashboard() {
   <div className="h-[400px] rounded-2xl overflow-hidden">
 
     <MapContainer
+    key="mine-map"
       center={[11.0168, 76.9558]}
       zoom={13}
       style={{ height: "100%", width: "100%" }}
@@ -431,6 +487,48 @@ export default function Dashboard() {
       </Marker>
 
     </MapContainer>
+
+  </div>
+
+</div>
+
+{/* ROBOT CONTROL PANEL */}
+
+<div className="bg-white p-6 rounded-2xl shadow-lg mb-8">
+
+  <h2 className="text-2xl font-bold mb-6">
+    Robot Control Panel
+  </h2>
+
+  <div className="flex flex-col items-center gap-4">
+
+    <button className="bg-blue-600 text-white px-8 py-3 rounded-xl">
+      Forward
+    </button>
+
+    <div className="flex gap-4">
+
+      <button className="bg-blue-600 text-white px-8 py-3 rounded-xl">
+        Left
+      </button>
+
+      <button className="bg-red-600 text-white px-8 py-3 rounded-xl">
+        STOP
+      </button>
+
+      <button className="bg-blue-600 text-white px-8 py-3 rounded-xl">
+        Right
+      </button>
+
+    </div>
+
+    <button className="bg-blue-600 text-white px-8 py-3 rounded-xl">
+      Backward
+    </button>
+
+    <button className="bg-black text-white px-8 py-3 rounded-xl mt-4">
+      Emergency Shutdown
+    </button>
 
   </div>
 
