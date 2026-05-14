@@ -221,7 +221,133 @@ export default function Dashboard() {
           </div>
 
         </div>
+{/* SWARM ROBOTS */}
 
+<div className="mb-8">
+
+  <h2 className="text-3xl font-bold mb-5">
+    Swarm Robot Status
+  </h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <div className="bg-white p-6 rounded-2xl shadow-lg">
+
+      <div className="flex items-center justify-between">
+
+        <div>
+
+          <h3 className="text-2xl font-bold">
+            Robot 1
+          </h3>
+
+          <p className="text-green-600 font-semibold">
+            ONLINE
+          </p>
+
+        </div>
+
+        <FaRobot size={45} />
+
+      </div>
+
+      <div className="mt-5 space-y-2">
+
+        <p>
+          Gas Level: 1850
+        </p>
+
+        <p>
+          Battery: 87%
+        </p>
+
+        <p>
+          Zone: Tunnel A
+        </p>
+
+      </div>
+
+    </div>
+
+    <div className="bg-white p-6 rounded-2xl shadow-lg">
+
+      <div className="flex items-center justify-between">
+
+        <div>
+
+          <h3 className="text-2xl font-bold">
+            Robot 2
+          </h3>
+
+          <p className="text-green-600 font-semibold">
+            ONLINE
+          </p>
+
+        </div>
+
+        <FaRobot size={45} />
+
+      </div>
+
+      <div className="mt-5 space-y-2">
+
+        <p>
+          Gas Level: 1620
+        </p>
+
+        <p>
+          Battery: 74%
+        </p>
+
+        <p>
+          Zone: Tunnel B
+        </p>
+
+      </div>
+
+    </div>
+
+    <div className="bg-white p-6 rounded-2xl shadow-lg">
+
+      <div className="flex items-center justify-between">
+
+        <div>
+
+          <h3 className="text-2xl font-bold">
+            Robot 3
+          </h3>
+
+          <p className="text-red-600 font-semibold">
+            OFFLINE
+          </p>
+
+        </div>
+
+        <FaRobot size={45} />
+
+      </div>
+
+      <div className="mt-5 space-y-2">
+
+        <p>
+          Gas Level: --
+        </p>
+
+        <p>
+          Battery: 0%
+        </p>
+
+        <p>
+          Zone: Unknown
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
         {/* GRAPH */}
 
         <div className="bg-white p-6 rounded-2xl shadow-lg h-[500px]">
