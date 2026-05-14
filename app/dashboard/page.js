@@ -1,6 +1,7 @@
 "use client";
-
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+
 
 import {
   LineChart,
@@ -20,9 +21,30 @@ import {
   FaExclamationTriangle,
 } from "react-icons/fa";
 
+const MapContainer = dynamic(
+  () => import("react-leaflet").then(mod => mod.MapContainer),
+  { ssr: false }
+);
+
+const TileLayer = dynamic(
+  () => import("react-leaflet").then(mod => mod.TileLayer),
+  { ssr: false }
+);
+
+const Marker = dynamic(
+  () => import("react-leaflet").then(mod => mod.Marker),
+  { ssr: false }
+);
+
+const Popup = dynamic(
+  () => import("react-leaflet").then(mod => mod.Popup),
+  { ssr: false }
+);
+
 export default function Dashboard() {
 
   const [data, setData] = useState([]);
+  const [alarmEnabled, setAlarmEnabled] = useState(false);
 
   useEffect(() => {
 
@@ -58,6 +80,22 @@ export default function Dashboard() {
 
   const latest = data[data.length - 1] || {};
 
+  useEffect(() => {
+
+  if (latest.gas > 2000 && alarmEnabled) {
+
+    const audio = new Audio(
+      "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"
+    );
+
+    audio.play();
+
+    alert(
+      "⚠️ Hazardous Gas Detected in Underground Mine!"
+    );
+  }
+
+}, [latest, alarmEnabled]);
   return (
 
     <div className="flex min-h-screen bg-gray-100">
@@ -116,6 +154,12 @@ export default function Dashboard() {
 
           <div className="bg-green-500 text-white px-6 py-3 rounded-2xl">
             SYSTEM ACTIVE
+            <button
+  onClick={() => setAlarmEnabled(true)}
+  className="bg-red-500 text-white px-4 py-2 rounded-xl ml-4"
+>
+  Enable Alarm Sound
+</button>
           </div>
 
         </div>
@@ -344,6 +388,49 @@ export default function Dashboard() {
       </div>
 
     </div>
+
+  </div>
+
+</div>
+
+{/* LIVE ROBOT MAP */}
+
+<div className="bg-white p-6 rounded-2xl shadow-lg mb-8">
+
+  <h2 className="text-2xl font-bold mb-5">
+    Underground Robot Locations
+  </h2>
+
+  <div className="h-[400px] rounded-2xl overflow-hidden">
+
+    <MapContainer
+      center={[11.0168, 76.9558]}
+      zoom={13}
+      style={{ height: "100%", width: "100%" }}
+    >
+
+      <TileLayer
+        attribution='&copy; OpenStreetMap contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+
+      <Marker position={[11.0168, 76.9558]}>
+
+        <Popup>
+          Robot 1 - Tunnel A
+        </Popup>
+
+      </Marker>
+
+      <Marker position={[11.0268, 76.9658]}>
+
+        <Popup>
+          Robot 2 - Tunnel B
+        </Popup>
+
+      </Marker>
+
+    </MapContainer>
 
   </div>
 
