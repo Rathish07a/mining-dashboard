@@ -154,7 +154,7 @@ useEffect(() => {
       <div className="w-72 bg-black text-white p-6">
 
         <h1 className="text-3xl font-bold mb-10">
-          Swarm Mining
+          Geovance
         </h1>
 
         <ul className="space-y-6 text-lg">
