@@ -1,6 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 
 import {
@@ -46,6 +47,7 @@ export default function Dashboard() {
   const [data, setData] = useState([]);
   const [alarmEnabled, setAlarmEnabled] = useState(false);
   const [monitoring, setMonitoring] = useState(true);
+  const router = useRouter();
 
 //   useEffect(() => {
 
@@ -78,6 +80,15 @@ export default function Dashboard() {
 //       console.log(error);
 //     }
 //   };
+useEffect(() => {
+
+  const loggedIn = localStorage.getItem("isLoggedIn");
+
+  if (!loggedIn) {
+    router.push("/login");
+  }
+
+}, []);
 
 useEffect(() => {
 
@@ -192,6 +203,16 @@ useEffect(() => {
 
           <div className="bg-green-500 text-white px-6 py-3 rounded-2xl">
             SYSTEM ACTIVE
+
+            <button
+  onClick={() => {
+    localStorage.removeItem("isLoggedIn");
+    router.push("/login");
+  }}
+  className="bg-red-600 text-white px-5 py-2 rounded-xl mt-4"
+>
+  Logout
+</button>
             <div className="flex gap-4 mt-4">
 
   <button
